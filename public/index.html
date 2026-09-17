@@ -578,6 +578,64 @@ html[lang="dv"] .room figcaption{font-size:1.0625rem}
 .btn--wa:hover{background:#17853F}
 .btn--wa svg{flex:none}
 
+/* ============================================================
+   Responsive patch: safe areas, iOS zoom fix, landscape phones
+   ============================================================ */
+
+/* iOS notch / Dynamic Island / home-indicator support
+   (viewport-fit=cover is already set, so content can slide under them) */
+.promo__inner{padding-left:max(1rem, env(safe-area-inset-left));padding-right:max(1rem, env(safe-area-inset-right))}
+.site-header__bar{padding-left:env(safe-area-inset-left);padding-right:env(safe-area-inset-right)}
+.nav-panel__top,.nav-panel__links,.nav-panel__foot{padding-left:max(0px, env(safe-area-inset-left));padding-right:max(0px, env(safe-area-inset-right))}
+.nav-panel__foot{padding-bottom:max(2.5rem, env(safe-area-inset-bottom))}
+.drawer__panel{padding-right:env(safe-area-inset-right)}
+[dir="rtl"] .drawer__panel{padding-right:0;padding-left:env(safe-area-inset-left)}
+.drawer__foot{padding-bottom:max(1.25rem, env(safe-area-inset-bottom))}
+.toast{bottom:max(1.25rem, env(safe-area-inset-bottom))}
+.site-footer{padding-bottom:max(2rem, env(safe-area-inset-bottom))}
+
+/* Prevent iOS Safari auto-zoom on input focus (needs >=16px font) */
+.search-bar input,.news input,.field input,.field textarea{font-size:16px}
+
+/* Better tap feedback, no gray flash on Android/iOS */
+a,button{-webkit-tap-highlight-color:transparent}
+
+/* Phones/tablets in LANDSCAPE with limited height
+   (iPhone SE/12/14 landscape, most Android landscape) */
+@media (orientation:landscape) and (max-height:500px){
+  :root{--section-y:clamp(2rem,6vh,3rem)}
+  .promo__inner{min-height:30px;padding-block:.25rem}
+  .site-header__bar{min-height:56px}
+  .hero__art{aspect-ratio:auto;height:min(70vh,420px);max-height:60vh}
+  .hero__panel{padding-block:1.25rem 1.75rem}
+  .hero__eyebrow{margin-bottom:.6rem}
+  .hero h1{margin-bottom:.75rem}
+  .hero__cta{margin-top:1rem}
+  .room{width:50vw;max-width:280px}
+  .quote{width:70vw}
+  .nav-panel__links a{padding:.7rem 0;font-size:1.375rem}
+}
+
+/* Larger phones in landscape (iPhone Pro Max, most Android) get the
+   wide hero crop instead of the tall portrait one, even under 1024px */
+@media (orientation:landscape) and (max-width:1023px) and (min-height:360px){
+  .hero__art--tall{display:none}
+  .hero__art--wide{display:block}
+  .hero__art{aspect-ratio:21/9;max-height:56vh}
+}
+
+/* Small-width phones (iPhone SE/mini, small Android) — tighten shell gutter */
+@media (max-width:374px){
+  :root{--shell:min(100% - 2rem, 1440px)}
+  .display{font-size:clamp(2.25rem,1.3rem + 6vw,6rem)}
+}
+
+/* Foldables / small tablets in portrait between phone and 768px */
+@media (min-width:600px) and (max-width:767px){
+  .products{grid-template-columns:repeat(3,minmax(0,1fr))}
+  .types{grid-template-columns:repeat(4,minmax(0,1fr))}
+}
+
 </style>
 </head>
 <body>
